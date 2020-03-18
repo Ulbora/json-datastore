@@ -78,6 +78,31 @@ func TestDataStore_Read3(t *testing.T) {
 	}
 }
 
+func TestDataStore_ReadAll(t *testing.T) {
+	ds.Path = "./testFiles"
+	d := ds.GetNew()
+
+	var tl []testData
+
+	pgl := d.ReadAll()
+	//fmt.Println("read cache data", pg)
+	for _, v := range pgl {
+		var td testData
+		err := json.Unmarshal(v, &td)
+		if err != nil {
+			fmt.Println("read err", err)
+		} else {
+			tl = append(tl, td)
+		}
+	}
+
+	fmt.Println("read testData all", tl)
+
+	if len(tl) != 2 || tl[0].Address != "some address" {
+		t.Fail()
+	}
+}
+
 func TestDataStore_Delete(t *testing.T) {
 	//var ds DataStore
 	ds.Path = "./testFiles"

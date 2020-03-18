@@ -66,3 +66,27 @@ func TestMockDataStore_Delete(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMockDataStore_ReadAll(t *testing.T) {
+	var mds MockDataStore
+	mds.Path = "./testFiles"
+
+	var tl [][]byte
+
+	var td testData
+	td.Address = "some address"
+	td.Name = "tester"
+	td.Other = []string{"att1", "att2", "att3"}
+
+	aJSON, err := json.Marshal(td)
+	if err != nil {
+		fmt.Println("err: ", err)
+	}
+	tl = append(tl, aJSON)
+	mds.MockDataList = tl
+
+	fls := mds.ReadAll()
+	if len(fls) != 1 {
+		t.Fail()
+	}
+}

@@ -14,6 +14,7 @@ import (
 type JSONDatastore interface {
 	Save(name string, data interface{}) bool
 	Read(name string) []byte
+	ReadAll() [][]byte
 	Delete(name string) bool
 }
 
@@ -54,6 +55,27 @@ func (d *DataStore) Read(name string) []byte {
 			rtn = file
 		} else {
 			log.Println("Reading Json file err: ", err)
+		}
+	}
+	return rtn
+}
+
+//ReadAll ReadAll
+func (d *DataStore) ReadAll() [][]byte {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	var rtn [][]byte
+	files, err := ioutil.ReadDir(d.Path)
+	if err == nil {
+		for _, f := range files {
+			isDir := f.IsDir()
+			if !isDir {
+				var fileName = d.Path + string(filepath.Separator) + f.Name()
+				file, err2 := ioutil.ReadFile(fileName)
+				if err2 == nil {
+					rtn = append(rtn, file)
+				}
+			}
 		}
 	}
 	return rtn
