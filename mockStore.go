@@ -2,9 +2,10 @@ package datastore
 
 //MockDataStore Datastore
 type MockDataStore struct {
-	Path        string
-	MockSuccess bool
-	MockData    []byte
+	Path              string
+	MockSuccess       bool
+	MockDeleteSuccess bool
+	MockData          []byte
 }
 
 //Save Save
@@ -12,8 +13,14 @@ func (d *MockDataStore) Save(name string, data interface{}) bool {
 	return d.MockSuccess
 }
 
+//Read Read
 func (d *MockDataStore) Read(name string) []byte {
 	return d.MockData
+}
+
+//Delete Delete
+func (d *MockDataStore) Delete(name string) bool {
+	return d.MockDeleteSuccess
 }
 
 //GetNew GetNew

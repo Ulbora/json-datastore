@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"sync"
 )
@@ -13,6 +14,7 @@ import (
 type JSONDatastore interface {
 	Save(name string, data interface{}) bool
 	Read(name string) []byte
+	Delete(name string) bool
 }
 
 //DataStore Datastore
@@ -52,6 +54,24 @@ func (d *DataStore) Read(name string) []byte {
 			rtn = file
 		} else {
 			log.Println("Reading Json file err: ", err)
+		}
+	}
+	return rtn
+}
+
+//Delete Delete
+func (d *DataStore) Delete(name string) bool {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	var rtn bool
+	//aJSON, err := json.Marshal(data)
+	if name != "" && d.Path != "" {
+		delete(d.cache, name)
+		//d.cache[name] = nil
+		var fileName = d.Path + string(filepath.Separator) + name + ".json"
+		jerr := os.Remove(fileName) // ioutil.WriteFile(fileName, aJSON, 0644)
+		if jerr == nil {
+			rtn = true
 		}
 	}
 	return rtn

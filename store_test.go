@@ -77,3 +77,20 @@ func TestDataStore_Read3(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestDataStore_Delete(t *testing.T) {
+	//var ds DataStore
+	ds.Path = "./testFiles"
+	d := ds.GetNew()
+
+	// var td testData
+	// td.Address = "some address"
+	// td.Name = "tester"
+	// td.Other = []string{"att1", "att2", "att3"}
+
+	suc := d.Delete("test")
+	//fmt.Println("found cache data", ds.cache[td.Name])
+	if !suc {
+		t.Fail()
+	}
+}

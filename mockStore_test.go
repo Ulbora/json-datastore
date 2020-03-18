@@ -52,3 +52,17 @@ func TestMockDataStore_Read(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMockDataStore_Delete(t *testing.T) {
+	//var ds DataStore
+	var mds MockDataStore
+	mds.MockDeleteSuccess = true
+	mds.Path = "./testFiles"
+	d := mds.GetNew()
+
+	suc := d.Delete("test")
+
+	if !suc {
+		t.Fail()
+	}
+}
