@@ -15,13 +15,13 @@ func (d *MockDataStore) Save(name string, data interface{}) bool {
 }
 
 //Read Read
-func (d *MockDataStore) Read(name string) []byte {
-	return d.MockData
+func (d *MockDataStore) Read(name string) *[]byte {
+	return &d.MockData
 }
 
 //ReadAll ReadAll
-func (d *MockDataStore) ReadAll() [][]byte {
-	return d.MockDataList
+func (d *MockDataStore) ReadAll() *[][]byte {
+	return &d.MockDataList
 }
 
 //Delete Delete

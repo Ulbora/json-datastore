@@ -12,8 +12,8 @@ import (
 //JSONDatastore JSONDatastore
 type JSONDatastore interface {
 	Save(name string, data interface{}) bool
-	Read(name string) []byte
-	ReadAll() [][]byte
+	Read(name string) *[]byte
+	ReadAll() *[][]byte
 	Delete(name string) bool
 }
 
@@ -41,18 +41,18 @@ func (d *DataStore) Save(name string, data interface{}) bool {
 	return rtn
 }
 
-func (d *DataStore) Read(name string) []byte {
+func (d *DataStore) Read(name string) *[]byte {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	var rtn []byte
 	if d.cache != nil && d.cache[name] != nil {
 		rtn = d.cache[name]
 	}
-	return rtn
+	return &rtn
 }
 
 //ReadAll ReadAll
-func (d *DataStore) ReadAll() [][]byte {
+func (d *DataStore) ReadAll() *[][]byte {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	var rtn [][]byte
@@ -61,7 +61,7 @@ func (d *DataStore) ReadAll() [][]byte {
 			rtn = append(rtn, v)
 		}
 	}
-	return rtn
+	return &rtn
 }
 
 //Delete Delete

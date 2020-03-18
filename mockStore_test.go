@@ -43,7 +43,7 @@ func TestMockDataStore_Read(t *testing.T) {
 	pg := d.Read("test")
 	var td2 testData
 
-	err2 := json.Unmarshal(pg, &td2)
+	err2 := json.Unmarshal(*pg, &td2)
 	if err2 != nil {
 		fmt.Println("read err", err2)
 	}
@@ -86,7 +86,7 @@ func TestMockDataStore_ReadAll(t *testing.T) {
 	mds.MockDataList = tl
 
 	fls := mds.ReadAll()
-	if len(fls) != 1 {
+	if len(*fls) != 1 {
 		t.Fail()
 	}
 }

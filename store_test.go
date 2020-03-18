@@ -38,7 +38,7 @@ func TestDataStore_Read(t *testing.T) {
 	pg := d.Read("test")
 	//fmt.Println("read cache data", pg)
 	var td testData
-	err := json.Unmarshal(pg, &td)
+	err := json.Unmarshal(*pg, &td)
 	if err != nil {
 		fmt.Println("read err", err)
 	}
@@ -53,8 +53,8 @@ func TestDataStore_ReadERR(t *testing.T) {
 	d := ds.GetNew()
 
 	pg := d.Read("test2")
-	//fmt.Println("read cache data", pg)
-	if pg != nil {
+	fmt.Println("read cache data", pg)
+	if *pg != nil {
 		t.Fail()
 	}
 }
@@ -67,7 +67,7 @@ func TestDataStore_Read3(t *testing.T) {
 	//fmt.Println("read cache data", pg)
 
 	var td testData
-	err := json.Unmarshal(pg, &td)
+	err := json.Unmarshal(*pg, &td)
 	if err != nil {
 		fmt.Println("read err", err)
 	}
@@ -86,7 +86,7 @@ func TestDataStore_ReadAll(t *testing.T) {
 
 	pgl := d.ReadAll()
 	//fmt.Println("read cache data", pg)
-	for _, v := range pgl {
+	for _, v := range *pgl {
 		var td testData
 		err := json.Unmarshal(v, &td)
 		if err != nil {
@@ -128,7 +128,7 @@ func TestDataStore_ReadAll2(t *testing.T) {
 
 	pgl := d.ReadAll()
 	//fmt.Println("read cache data", pg)
-	for _, v := range pgl {
+	for _, v := range *pgl {
 		var td testData
 		err := json.Unmarshal(v, &td)
 		if err != nil {

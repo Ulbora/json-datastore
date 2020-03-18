@@ -1,18 +1,18 @@
 mode: set
 github.com/Ulbora/json-datastore/mockStore.go:13.66,15.2 1 1
-github.com/Ulbora/json-datastore/mockStore.go:18.50,20.2 1 1
-github.com/Ulbora/json-datastore/mockStore.go:23.44,25.2 1 1
+github.com/Ulbora/json-datastore/mockStore.go:18.51,20.2 1 1
+github.com/Ulbora/json-datastore/mockStore.go:23.45,25.2 1 1
 github.com/Ulbora/json-datastore/mockStore.go:28.50,30.2 1 1
 github.com/Ulbora/json-datastore/mockStore.go:33.48,39.2 3 1
 github.com/Ulbora/json-datastore/store.go:28.62,33.46 5 1
 github.com/Ulbora/json-datastore/store.go:41.2,41.12 1 1
 github.com/Ulbora/json-datastore/store.go:33.46,37.18 4 1
 github.com/Ulbora/json-datastore/store.go:37.18,39.4 1 1
-github.com/Ulbora/json-datastore/store.go:44.46,48.44 4 1
-github.com/Ulbora/json-datastore/store.go:51.2,51.12 1 1
+github.com/Ulbora/json-datastore/store.go:44.47,48.44 4 1
+github.com/Ulbora/json-datastore/store.go:51.2,51.13 1 1
 github.com/Ulbora/json-datastore/store.go:48.44,50.3 1 1
-github.com/Ulbora/json-datastore/store.go:55.40,59.20 4 1
-github.com/Ulbora/json-datastore/store.go:64.2,64.12 1 1
+github.com/Ulbora/json-datastore/store.go:55.41,59.20 4 1
+github.com/Ulbora/json-datastore/store.go:64.2,64.13 1 1
 github.com/Ulbora/json-datastore/store.go:59.20,60.29 1 1
 github.com/Ulbora/json-datastore/store.go:60.29,62.4 1 1
 github.com/Ulbora/json-datastore/store.go:68.46,72.32 4 1
