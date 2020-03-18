@@ -26,7 +26,7 @@ func TestDataStore_Save(t *testing.T) {
 
 	suc := d.Save("test", td)
 	//fmt.Println("found cache data", ds.cache[td.Name])
-	if !suc && ds.cache != nil {
+	if !suc || ds.cache == nil {
 		t.Fail()
 	}
 }
@@ -43,7 +43,7 @@ func TestDataStore_Read(t *testing.T) {
 		fmt.Println("read err", err)
 	}
 	//fmt.Println("read testData", td)
-	if pg == nil && td.Address != "some address" {
+	if pg == nil || td.Address != "some address" {
 		t.Fail()
 	}
 }
@@ -73,7 +73,7 @@ func TestDataStore_Read3(t *testing.T) {
 	}
 	//fmt.Println("read testData", td)
 
-	if pg == nil && td.Address != "some address" {
+	if pg == nil || td.Address != "some address" {
 		t.Fail()
 	}
 }
