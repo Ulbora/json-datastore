@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"sync"
@@ -48,14 +47,6 @@ func (d *DataStore) Read(name string) []byte {
 	var rtn []byte
 	if d.cache != nil && d.cache[name] != nil {
 		rtn = d.cache[name]
-	} else {
-		var fileName = d.Path + string(filepath.Separator) + name + ".json"
-		file, err := ioutil.ReadFile(fileName)
-		if err == nil {
-			rtn = file
-		} else {
-			log.Println("Reading Json file err: ", err)
-		}
 	}
 	return rtn
 }
@@ -65,17 +56,9 @@ func (d *DataStore) ReadAll() [][]byte {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	var rtn [][]byte
-	files, err := ioutil.ReadDir(d.Path)
-	if err == nil {
-		for _, f := range files {
-			isDir := f.IsDir()
-			if !isDir {
-				var fileName = d.Path + string(filepath.Separator) + f.Name()
-				file, err2 := ioutil.ReadFile(fileName)
-				if err2 == nil {
-					rtn = append(rtn, file)
-				}
-			}
+	if d.cache != nil {
+		for _, v := range d.cache {
+			rtn = append(rtn, v)
 		}
 	}
 	return rtn
@@ -86,12 +69,10 @@ func (d *DataStore) Delete(name string) bool {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	var rtn bool
-	//aJSON, err := json.Marshal(data)
 	if name != "" && d.Path != "" {
 		delete(d.cache, name)
-		//d.cache[name] = nil
 		var fileName = d.Path + string(filepath.Separator) + name + ".json"
-		jerr := os.Remove(fileName) // ioutil.WriteFile(fileName, aJSON, 0644)
+		jerr := os.Remove(fileName)
 		if jerr == nil {
 			rtn = true
 		}
@@ -103,10 +84,29 @@ func (d *DataStore) Delete(name string) bool {
 func (d *DataStore) GetNew() JSONDatastore {
 	// Should call in main of application and then
 	// should us dependency injection to inject JSONDataStore
+	d.mu.Lock()
+	defer d.mu.Unlock()
 	var jd JSONDatastore
 	if d.cache == nil {
 		fmt.Println("initializing cache")
 		d.cache = make(map[string][]byte)
+		files, err := ioutil.ReadDir(d.Path)
+		if err == nil {
+			for _, f := range files {
+				isDir := f.IsDir()
+				if !isDir {
+					var fileName = d.Path + string(filepath.Separator) + f.Name()
+					file, err2 := ioutil.ReadFile(fileName)
+					if err2 == nil {
+						var name = f.Name()
+						fmt.Println("name: ", name)
+						name = name[0 : len(name)-5]
+						fmt.Println("name2: ", name)
+						d.cache[name] = file
+					}
+				}
+			}
+		}
 	}
 	jd = d
 	return jd
