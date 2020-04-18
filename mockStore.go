@@ -5,6 +5,7 @@ type MockDataStore struct {
 	Path              string
 	MockSuccess       bool
 	MockDeleteSuccess bool
+	MockReloadSuccess bool
 	MockData          []byte
 	MockDataList      [][]byte
 }
@@ -36,4 +37,9 @@ func (d *MockDataStore) GetNew() JSONDatastore {
 	var jd JSONDatastore
 	jd = d
 	return jd
+}
+
+//Reload Reload
+func (d *MockDataStore) Reload() bool {
+	return d.MockReloadSuccess
 }

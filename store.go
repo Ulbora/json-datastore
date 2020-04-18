@@ -15,6 +15,7 @@ type JSONDatastore interface {
 	Read(name string) *[]byte
 	ReadAll() *[][]byte
 	Delete(name string) bool
+	Reload() bool
 }
 
 //DataStore Datastore
@@ -110,6 +111,34 @@ func (d *DataStore) GetNew() JSONDatastore {
 	}
 	jd = d
 	return jd
+}
+
+//Reload Reload
+func (d *DataStore) Reload() bool {
+	var rtn bool
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	fmt.Println("Reloading cache")
+	d.cache = make(map[string][]byte)
+	files, err := ioutil.ReadDir(d.Path)
+	if err == nil {
+		for _, f := range files {
+			isDir := f.IsDir()
+			if !isDir {
+				var fileName = d.Path + string(filepath.Separator) + f.Name()
+				file, err2 := ioutil.ReadFile(fileName)
+				if err2 == nil {
+					var name = f.Name()
+					fmt.Println("name: ", name)
+					name = name[0 : len(name)-5]
+					fmt.Println("name2: ", name)
+					d.cache[name] = file
+				}
+			}
+		}
+		rtn = true
+	}
+	return rtn
 }
 
 //go mod init github.com/Ulbora/json-datastore

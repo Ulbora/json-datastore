@@ -144,3 +144,31 @@ func TestDataStore_ReadAll2(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestDataStore_Reload(t *testing.T) {
+	ds.Path = "./testFiles"
+	d := ds.GetNew()
+
+	rlsuc := ds.Reload()
+
+	var tl []testData
+
+	pgl := d.ReadAll()
+	//fmt.Println("read cache data", pg)
+	for _, v := range *pgl {
+		var td testData
+		err := json.Unmarshal(v, &td)
+		if err != nil {
+			fmt.Println("read err", err)
+		} else {
+			tl = append(tl, td)
+		}
+	}
+
+	fmt.Println("read testData all", tl)
+
+	if len(tl) != 1 || !rlsuc {
+		t.Fail()
+	}
+
+}

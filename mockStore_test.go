@@ -90,3 +90,13 @@ func TestMockDataStore_ReadAll(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMockDataStore_Reload(t *testing.T) {
+	var mds MockDataStore
+	mds.Path = "./testFiles"
+	mds.MockReloadSuccess = true
+	mrs := mds.Reload()
+	if !mrs {
+		t.Fail()
+	}
+}
